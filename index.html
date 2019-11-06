@@ -14,7 +14,25 @@
   </head>
   <body>
     <div id="map"></div>
+    <select id="layer-select">
+      <option value="normal.day" selected>Normal Day</option>
+      <option value="normal.day.transit">Normal Day Transit</option>
+      <option value="pedestrian.day">Pedestrian Day</option>
+      <option value="terrain.day">Terrain Day</option>
+      <option value="satellite.day">Satellite Day</option>
+      <option value="hybrid.day">Hybrid Day</option>
+    </select>
+    <div id="mouse-position"></div>
+    <form>
+      <label>Projection </label>
+      <select id="projection">
+        <option value="EPSG:4326">EPSG:4326</option>
+        <option value="EPSG:3857">EPSG:3857</option>
+      </select>
+      <label>Precision </label>
+      <input id="precision" type="number" min="0" max="12" value="4" />
+    </form>
     <div id="info">&nbsp;</div>
-    <script src="js/dragndrop1.js"></script>
+    <script src="js/projekcija_pozicija.js"></script>
   </body>
 </html>
