@@ -6,69 +6,59 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
-    <link rel="stylesheet" href="css/drugistil.css" />
-    <style>
-      #map {
-        width: 100%;
-        height: 800px;
-      }
-    </style>
+    <link rel="stylesheet" href="css/stil.css" />
   </head>
   <body>
-    <div style="height: 120px;">
-      <ul>
-        <li>
-          <a href="#">
-            <div class="icon">
-              <i class="fa fa-plus-square" aria-hidden="true"></i>
-              <i class="fa fa-plus-square" aria-hidden="true"></i>
-            </div>
-            <div class="name"><span data-text="Unos">Unos</span></div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="icon">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </div>
-            <div class="name"><span data-text="Izmjena">Izmjena</span></div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="icon">
-              <i class="fa fa-file-text" aria-hidden="true"></i>
-              <i class="fa fa-file-text" aria-hidden="true"></i>
-            </div>
-            <div class="name"><span data-text="Atribut">Atribut</span></div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="icon">
-              <i class="fa fa-globe" aria-hidden="true"></i>
-              <i class="fa fa-globe" aria-hidden="true"></i>
-            </div>
-            <div class="name"><span data-text="Geometrija">Geometrija</span></div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="icon">
-              <i class="fa fa-filter" aria-hidden="true"></i>
-              <i class="fa fa-filter" aria-hidden="true"></i>
-            </div>
-            <div class="name"><span data-text="Filter">Filter</span></div>
-          </a>
-        </li>
-      </ul>
+    <div class="pocetni-div">
+      <div class="topnav" id="myTopnav">
+        <a href="#pan" class="active"><i class="fa fa-hand-paper-o" aria-hidden="true"></i></a>
+        <a href="#odaberi"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
+        <a href="#dodaj"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+        <a href="#izbrisi"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+        <a href="#izmijeni"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
+        <a href="#atributi"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+        <a href="#marker"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+        <div class="dropdown">
+          <button class="dropbtn">
+            <i class="fa fa-th-large" aria-hidden="true"></i>Podloge
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="#osm">OSM</a>
+            <a href="#topo">Topo</a>
+            <a href="#satelit">Satelit</a>
+          </div>
+        </div>
+        <a href="#pretraga"><i class="fa fa-search" aria-hidden="true"></i></a>
+        <div class="dropdown">
+          <button class="dropbtn">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="#shp">SHP</a>
+            <a href="#kml">KML</a>
+            <a href="#csv">CSV</a>
+          </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+      </div>
     </div>
     <div id="map" class="map"></div>
     <select id="mode">
       <option value="modify">Izmjena geometrije</option>
       <option value="draw">Crtanje nove</option>
     </select>
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
     <script src="js/zelenilo_modifikacija_geometrije.js"></script>
   </body>
 </html>
