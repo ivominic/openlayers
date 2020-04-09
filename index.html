@@ -49,6 +49,9 @@
       <option value="modify">Izmjena geometrije</option>
       <option value="draw">Crtanje nove</option>
     </select>
+    <div id="pretragaDiv" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeDiv('#pretragaDiv')">&times;</a>
+    </div>
     <script>
       function myFunction() {
         var x = document.getElementById("myTopnav");
@@ -57,6 +60,9 @@
         } else {
           x.className = "topnav";
         }
+      }
+      function closeDiv(nazivDiva) {
+        document.querySelector(nazivDiva).style.width = "0";
       }
     </script>
     <script src="js/zelenilo_modifikacija_geometrije.js"></script>

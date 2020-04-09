@@ -127,8 +127,11 @@ function atributi() {
 
 function marker() {
   console.log("marker");
+  document.getElementById("pretragaDiv").style.width = "250px";
 }
 
 function pretraga() {
   console.log("pretraga");
+  //document.getElementById("pretragaDiv").style.width = "0";
+  closeDiv("#pretragaDiv");
 }
