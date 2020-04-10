@@ -22,12 +22,11 @@ import {
 import {
   useGeographic
 } from "ol/proj";
-import TileWMS from 'ol/source/TileWMS';
 import ImageWMS from 'ol/source/ImageWMS';
-import WMSGetFeatureInfo from 'ol/format/WMSGetFeatureInfo';
 
 useGeographic();
 var sirinaDiva = "500px";
+var idObjekta = 0;
 
 console.log(location.origin);
 
@@ -60,26 +59,13 @@ var source = new VectorSource({
 });
 
 
-var wmsTileLayer = new TileLayer({
-  source: new TileWMS({
-    url: wmsUrl,
-    params: {
-      'LAYERS': 'winsoft:zbunje',
-      'TILED': false
-    },
-    serverType: 'geoserver',
-    crossOrigin: 'anonymous'
-  })
-});
-
-
 var wmsLayer = new ImageLayer({
   title: "Žbunje",
   name: "zbunje",
   source: new ImageWMS({
     url: wmsUrl,
     params: {
-      LAYERS: "winsoft:zbunje"
+      LAYERS: "winsoft:zbunje_v"
     },
     ratio: 1,
     serverType: "geoserver"
@@ -147,30 +133,7 @@ function onChange() {
       break;
     }
     case "info": {
-      /*console.log("aaaaaa");
-      map.addInteraction(select);
-      select.on('select', function (e) {
-        console.log("info", e.coordinate)
-        console.log("prvo", e.target.getFeatures().getLength());
-        console.log("drugo", e.selected.length);
-        console.log("trece", e.deselected.length);
-        var urlLejer = wmsLayer.getSource().getGetFeatureInfoUrl(coordinate, map.getView().getResolution(), "EPSG:3857", {
-          INFO_FORMAT: "application/json"
-        });
-        if (urlLejer) {
-          fetch(urlDrvece)
-            .then(function (response) {
-              //restartovanje();
-              return response.text();
-            })
-            .then(function (json) {
-              let odgovor = JSON.parse(json);
-              if (odgovor.features.length > 0) {
-                popuniKontrole("drvece", odgovor);
-              }
-            });
-        }
-      });*/
+
       break;
     }
     default: {
@@ -183,7 +146,8 @@ onChange();
 
 map.on('singleclick', function (evt) {
   //var viewResolution = /** @type {number} */ (view.getResolution());
-  var url = wmsLayer.getSource().getGetFeatureInfoUrl(evt.coordinate, map.getView().getResolution(), "EPSG:3857", {
+  console.log(wmsLayer.getSource().getLegendUrl());
+  var url = wmsLayer.getSource().getFeatureInfoUrl(evt.coordinate, map.getView().getResolution(), "EPSG:4326", {
     INFO_FORMAT: "application/json"
   });
   if (url) {
@@ -191,11 +155,15 @@ map.on('singleclick', function (evt) {
       .then(function (response) {
         return response.text();
       })
-      .then(function (html) {
-        console.log("html", html);
+      .then(function (json) {
+        let odgovor = JSON.parse(json);
+        if (odgovor.features.length > 0) {
+          popuniKontrole(odgovor);
+        }
       });
   }
 });
+
 
 map.on('pointermove', function (evt) {
   if (evt.dragging) {
@@ -207,6 +175,25 @@ map.on('pointermove', function (evt) {
   });
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 });
+
+function popuniKontrole(odgovor) {
+  var atributi = odgovor.features[0]["properties"];
+  console.log("atributi", atributi);
+  idObjekta = atributi["id"];
+  document.querySelector("#latinskiNaziv").value = atributi["latinski_naziv"];
+  document.querySelector("#narodniNaziv").value = atributi["narodni_naziv"];
+  for (var i = 0; i < document.querySelector("#tip").length; i++) {
+    document.querySelector("#tip").options[i].text === atributi["tip"] && (document.querySelector("#tip").options[i].selected = true);
+  }
+  document.querySelector("#zdravstvenoStanje").value = atributi["zdravstveno_stanje"];
+  document.querySelector("#napomena").value = atributi["napomena"];
+  //slika
+  var slika = atributi["url_fotografije"];
+  slika.length && (slika = slika.substring(slika.lastIndexOf("/") + 1, slika.length));
+  //overlay.getElement().innerHTML = '<a target="_blank" href="' + imageUrl + slika + '"><img src="' + imageUrl + slika + '"></a>';
+
+}
+
 
 function pan() {
   console.log("PAN");
