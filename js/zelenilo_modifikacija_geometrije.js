@@ -24,6 +24,7 @@ import {
 } from "ol/proj";
 import TileWMS from 'ol/source/TileWMS';
 import ImageWMS from 'ol/source/ImageWMS';
+import WMSGetFeatureInfo from 'ol/format/WMSGetFeatureInfo';
 
 useGeographic();
 var sirinaDiva = "500px";
@@ -59,7 +60,7 @@ var source = new VectorSource({
 });
 
 
-/*var wmsLayer = new TileLayer({
+var wmsTileLayer = new TileLayer({
   source: new TileWMS({
     url: wmsUrl,
     params: {
@@ -69,7 +70,7 @@ var source = new VectorSource({
     serverType: 'geoserver',
     crossOrigin: 'anonymous'
   })
-});*/
+});
 
 
 var wmsLayer = new ImageLayer({
@@ -127,10 +128,13 @@ function removeInteractions() {
 }
 
 var mode = document.getElementById("mode");
+var tipAkcije = "info";
+
+
 
 function onChange() {
   removeInteractions();
-  switch (mode.value) {
+  switch (tipAkcije) {
     case "draw": {
       map.addInteraction(draw);
       map.addInteraction(snap);
@@ -142,6 +146,33 @@ function onChange() {
       map.addInteraction(snap);
       break;
     }
+    case "info": {
+      /*console.log("aaaaaa");
+      map.addInteraction(select);
+      select.on('select', function (e) {
+        console.log("info", e.coordinate)
+        console.log("prvo", e.target.getFeatures().getLength());
+        console.log("drugo", e.selected.length);
+        console.log("trece", e.deselected.length);
+        var urlLejer = wmsLayer.getSource().getGetFeatureInfoUrl(coordinate, map.getView().getResolution(), "EPSG:3857", {
+          INFO_FORMAT: "application/json"
+        });
+        if (urlLejer) {
+          fetch(urlDrvece)
+            .then(function (response) {
+              //restartovanje();
+              return response.text();
+            })
+            .then(function (json) {
+              let odgovor = JSON.parse(json);
+              if (odgovor.features.length > 0) {
+                popuniKontrole("drvece", odgovor);
+              }
+            });
+        }
+      });*/
+      break;
+    }
     default: {
       // pass
     }
@@ -149,6 +180,33 @@ function onChange() {
 }
 mode.addEventListener("change", onChange);
 onChange();
+
+map.on('singleclick', function (evt) {
+  //var viewResolution = /** @type {number} */ (view.getResolution());
+  var url = wmsLayer.getSource().getGetFeatureInfoUrl(evt.coordinate, map.getView().getResolution(), "EPSG:3857", {
+    INFO_FORMAT: "application/json"
+  });
+  if (url) {
+    fetch(url)
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (html) {
+        console.log("html", html);
+      });
+  }
+});
+
+map.on('pointermove', function (evt) {
+  if (evt.dragging) {
+    return;
+  }
+  var pixel = map.getEventPixel(evt.originalEvent);
+  var hit = map.forEachLayerAtPixel(pixel, function () {
+    return true;
+  });
+  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+});
 
 function pan() {
   console.log("PAN");
