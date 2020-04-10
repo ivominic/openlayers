@@ -7,6 +7,14 @@
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
     <link rel="stylesheet" href="css/stil.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="pocetni-div">
@@ -51,6 +59,37 @@
     </select>
     <div id="pretragaDiv" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeDiv('#pretragaDiv')">&times;</a>
+      <div class="col-md-6">
+        <label for="latinskiNaziv">Latinski naziv:</label>
+        <input type="text" class="form-control" id="latinskiNaziv" />
+      </div>
+      <div class="col-md-6">
+        <label for="narodniNaziv">Narodni naziv:</label>
+        <input type="text" class="form-control" id="narodniNaziv" />
+      </div>
+      <div class="col-md-6">
+        <label for="tip">Tip:</label>
+        <select class="form-control" id="tip">
+          <option value=""></option>
+          <option value="Četinar">Četinar</option>
+          <option value="Listopadni lišćar">Listopadni lišćar</option>
+          <option value="Zimzeleni lišćar">Zimzeleni lišćar</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="zdravstvenoStanje">Zdravstveno stanje:</label>
+        <input type="text" class="form-control" id="zdravstvenoStanje" />
+      </div>
+      <div class="col-md-6">
+        <label for="napomena">Napomena:</label>
+        <input type="text" class="form-control" id="napomena" />
+      </div>
+      <div class="col-md-12 row row-padding">
+        <button type="button" class="btn btn-primary" id="btnSacuvaj">Sačuvaj</button>
+        <button type="button" class="btn btn-warning" id="btnPonisti">Poništi</button>
+        <button type="button" class="btn btn-info" id="btnFilter">Filter</button>
+        <button type="button" class="btn btn-danger" id="btnIzbrisi">Izbriši</button>
+      </div>
     </div>
     <script>
       function myFunction() {
